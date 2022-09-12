@@ -17,6 +17,10 @@ public:
                                       unit_id_(unit_id) {}
 
   [[nodiscard]] int unit_id() const { return unit_id_; }
+
+  void OnDone(const std::function<void(UnitCommand*)>& on_done) {
+    Command::OnDone([this, on_done](Command*){ on_done(this); });
+  }
 private:
   const int unit_id_;
 };

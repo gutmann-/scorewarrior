@@ -17,6 +17,7 @@ public:
 
   int enemy_id() const { return enemy_id_; }
   int winner_id() const { return winner_id_; }
+  bool all_dead() const { return winner_id() == units::Unit::NOT_INITIALIZED_ID; }
 private:
   void Init(uint32_t current_time) override;
   bool Execute(uint32_t current_time) override;

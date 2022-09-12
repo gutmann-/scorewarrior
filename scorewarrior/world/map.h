@@ -34,7 +34,7 @@ public:
    * @param unit_id идентификатор юнита.
    * @return позиция юнита на карте
    */
-  [[nodiscard]] Position PositionOfUnit(int unit_id) const;
+  [[nodiscard]] const Position& PositionOfUnit(int unit_id) const;
   /**
    * Получить идентификаторы юнитов, стоящих в клетке @param  position
    * @param position искомое место
@@ -63,6 +63,13 @@ private:
    * @throw std::out_of_range В случае если координата @param position лежит вне карты
    */
   void ValidatePosition(const Position& position) const;
+
+  /**
+   * Проверяет, существует ли юнит с идентификатором @param unit_id на карте
+   * @param unit_id идентификатор юнита
+   * @throw std::out_of_range В случае если юнита нет на карте.
+   */
+  void EnsureUnitExists(int unit_id) const;
 
 
   int width_, height_;

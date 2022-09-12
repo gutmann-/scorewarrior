@@ -46,10 +46,8 @@ bool Fight::Execute(uint32_t current_time) {
 
   dispatcher_.Handle(unit.get(), enemy.get());
 
-  if (winner_id_ == unit->id())
-    map->PlaceUnit(unit_position, std::move(unit));
-  else if (winner_id_ == enemy->id())
-    map->PlaceUnit(unit_position, std::move(enemy));
+  map->PlaceUnit(unit_position, std::move(unit));
+  map->PlaceUnit(unit_position, std::move(enemy));
 
   world_->set_map(std::move(map));
   return true;
