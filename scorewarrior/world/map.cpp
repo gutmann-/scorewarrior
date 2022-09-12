@@ -14,7 +14,8 @@ void Map::PlaceUnit(const Position& where, std::unique_ptr<units::Unit> unit) {
   ValidatePosition(where);
   if (!unit) return;
 
-  ExtractUnit(unit->id());
+  if (ContainsUnit(unit->id()))
+    ExtractUnit(unit->id());
 
   const auto unit_id = unit->id();
   unit_place_[unit_id] = where;
@@ -22,6 +23,8 @@ void Map::PlaceUnit(const Position& where, std::unique_ptr<units::Unit> unit) {
 }
 
 std::unique_ptr<units::Unit> Map::ExtractUnit(int unit_id) {
+  EnsureUnitExists(unit_id);
+
   std::unique_ptr<units::Unit> extracted;
 
   auto unit_position_iterator = unit_place_.find(unit_id);
@@ -43,15 +46,9 @@ std::unique_ptr<units::Unit> Map::ExtractUnit(int unit_id) {
   return extracted;
 }
 
-Position Map::PositionOfUnit(int unit_id) const {
-  auto unit_position_iterator = unit_place_.find(unit_id);
-  if (unit_position_iterator != unit_place_.end()) {
-    return unit_position_iterator->second;
-  } else {
-    const auto err_str = std::string("Can't locate unit with id == ") +
-        std::to_string(unit_id);
-    throw std::out_of_range(err_str);
-  }
+const Position& Map::PositionOfUnit(int unit_id) const {
+  EnsureUnitExists(unit_id);
+  return unit_place_.find(unit_id)->second;
 }
 
 std::set<int> Map::UnitsIdsInPlace(const Position& position) const {
@@ -66,6 +63,14 @@ std::set<int> Map::UnitsIdsInPlace(const Position& position) const {
   }
 
   return ids;
+}
+
+void Map::EnsureUnitExists(int unit_id) const {
+  if (unit_place_.find(unit_id) == unit_place_.end()) {
+    const auto err_str = std::string("Can't locate unit with id == ") +
+        std::to_string(unit_id);
+    throw std::out_of_range(err_str);
+  }
 }
 
 size_t Map::NumerOfUnitsInPlace(const Position& position) const {

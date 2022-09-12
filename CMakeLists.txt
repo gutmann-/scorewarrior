@@ -42,5 +42,9 @@ add_executable(scorewarrior
         scorewarrior/game/command/fight.h
         scorewarrior/game/command/fight.cpp
         scorewarrior/parser/command_file.h
-        scorewarrior/parser/command_file.cpp)
+        scorewarrior/parser/command_file.cpp
+        scorewarrior/game/command/kill.h
+        scorewarrior/game/command/kill.cpp
+        scorewarrior/game/unit_moving_history.h
+        scorewarrior/game/unit_moving_history.cpp)
 target_include_directories(scorewarrior PRIVATE ${CMAKE_SOURCE_DIR})
