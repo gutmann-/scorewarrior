@@ -14,7 +14,7 @@ namespace scorewarrior::game {
 namespace {
 
 auto MakeLogMarchStr(command::March* march) {
-  const auto& position = !march->is_done() ? march->from_position() : march->to_position();
+  const auto& position = march->to_position();
   const char* event = !march->is_done() ? "STARTED" : "FINISHED";
 
   return std::string("MARCH ") + event +
